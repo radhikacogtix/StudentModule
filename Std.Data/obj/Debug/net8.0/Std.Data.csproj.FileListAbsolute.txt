@@ -1,0 +1,12 @@
+C:\Users\User\Documents\.NET Practice\Std.Data\bin\Debug\net8.0\Std.Data.deps.json
+C:\Users\User\Documents\.NET Practice\Std.Data\bin\Debug\net8.0\Std.Data.dll
+C:\Users\User\Documents\.NET Practice\Std.Data\bin\Debug\net8.0\Std.Data.pdb
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.csproj.AssemblyReference.cache
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.AssemblyInfoInputs.cache
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.AssemblyInfo.cs
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.csproj.CoreCompileInputs.cache
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.dll
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\refint\Std.Data.dll
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\Std.Data.pdb
+C:\Users\User\Documents\.NET Practice\Std.Data\obj\Debug\net8.0\ref\Std.Data.dll
