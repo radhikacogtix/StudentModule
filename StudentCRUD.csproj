@@ -7,6 +7,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="bin\**" />
+	  <Compile Remove="Std.Data\**" />
+	  <Content Remove="bin\**" />
+	  <Content Remove="Std.Data\**" />
+	  <EmbeddedResource Remove="bin\**" />
+	  <EmbeddedResource Remove="Std.Data\**" />
+	  <None Remove="bin\**" />
+	  <None Remove="Std.Data\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<!-- Just remove the weather demo files -->
 		<Compile Remove="Controllers\WeatherForecastController.cs" />
 		<Compile Remove="WeatherForecast.cs" />
@@ -18,7 +29,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+		<PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="8.1.1" />
 	</ItemGroup>
 
 	<ItemGroup>
