@@ -2,10 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Std.Data.Services;
 using Std.Data;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authentication;
+using StudentCRUD.Middleware;
+using StudentCRUD;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,6 +39,8 @@ builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnC
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+
 builder.Services.AddScoped<IStudentService, StudentService>();
 
 
@@ -46,6 +50,32 @@ builder.Services.AddHttpClient("InternalAPI")
         ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
     });
 
+builder.Services.AddAuthentication("BasicAuthentication").AddScheme<AuthenticationSchemeOptions, BasicAuthentication>("BasicAuthentication",null);
+
+
+var jwtSettingsSection = builder.Configuration.GetSection("JwtSettings");
+builder.Services.Configure<JwtSettings>(jwtSettingsSection);
+var jwtSettings = jwtSettingsSection.Get<JwtSettings>();
+var secretKey = jwtSettings.Secretkey;
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secretkey)),
+
+    };
+});
 var app = builder.Build();
 
 
@@ -75,7 +105,7 @@ app.Use(async (context, next) =>
         await next();
         return;
     }
-
+    /*
     if (!context.Request.Headers.TryGetValue("X-API-KEY", out var extractedApiKey))
     {
         context.Response.StatusCode = 401;
@@ -89,7 +119,7 @@ app.Use(async (context, next) =>
         context.Response.StatusCode = 403;
         await context.Response.WriteAsync("Unauthorized access.");
         return;
-    }
+    }*/
 
     await next();
 });
@@ -114,10 +144,10 @@ app.Use(async (context, next) =>
     await next();
 });
 
-
+app.UseMiddleware<ApiKeyMiddleware>();
 app.UseHttpsRedirection();
-app.UseCors("AllowPartners");
+app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseCors("AllowPartners");
 app.MapControllers();
 app.Run();
